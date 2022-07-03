@@ -21,8 +21,6 @@ async function kick(): Promise<void> {
     const queue = "my-queue"; // Name of your Queue
     const location = "asia-northeast2"; // The GCP region of your queue
     const url = "https://line-bot-4vbqfq4cja-dt.a.run.app/sendLineMessage"; // The full url path that the request will be sent to
-    const serviceAccountEmail =
-      "client@line-bot-353103.iam.gserviceaccount.com";
     const payload = "Hello, World!"; // The task HTTP request body
     const inSeconds = 0; // Delay in task execution
 
@@ -33,9 +31,6 @@ async function kick(): Promise<void> {
       httpRequest: {
         httpMethod: "POST",
         url: url,
-        oidcToken: {
-          serviceAccountEmail: serviceAccountEmail,
-        },
       },
     });
 
