@@ -4,25 +4,19 @@ import { google } from "@google-cloud/tasks/build/protos/protos";
 import ICreateTaskRequest = google.cloud.tasks.v2.ICreateTaskRequest;
 import Task = google.cloud.tasks.v2.Task;
 
-// sample-metadata:
-//   title: Cloud Tasks Create HTTP Target
-//   description: Create Cloud Tasks with an HTTP Target
-
 /**
- * Create a task with an HTTP target for a given queue with an arbitrary payload.
+ * LINE プッシュメッセージを送信するタスクを Cloud Tasks へ登録する
  */
 async function kick(): Promise<void> {
-  // [START cloud_tasks_create_http_task]
-  // Instantiates a client.
   const client = new CloudTasksClient();
 
   const createHttpTask = async (): Promise<void> => {
-    const project = "line-bot-353103"; // Your GCP Project id
-    const queue = "my-queue"; // Name of your Queue
-    const location = "asia-northeast2"; // The GCP region of your queue
-    const url = "https://line-bot-4vbqfq4cja-dt.a.run.app/sendLineMessage"; // The full url path that the request will be sent to
-    const payload = "Hello, World!"; // The task HTTP request body
-    const inSeconds = 0; // Delay in task execution
+    const project = "line-bot-353103"; // GCP Project id
+    const queue = "my-queue"; // キューの名前
+    const location = "asia-northeast2"; // キューの region
+    const url = "https://line-bot-4vbqfq4cja-dt.a.run.app/sendLineMessage"; // タスクが呼び出すURL
+    const payload = "Hello, World!"; // タスク(POST) の HTTP request body
+    const inSeconds = 0; // タスクを実行するまでの遅延時間
 
     // Construct the fully qualified queue name.
     const parent = client.queuePath(project, location, queue);
@@ -59,11 +53,13 @@ async function kick(): Promise<void> {
   };
 
   await createHttpTask();
-  // [END cloud_tasks_create_http_task]
 }
 
 const app: Application = express();
 
+/*
+ * Cloud Run から呼び出すURL
+ */
 app.get("/kick", (_req: Request, res: Response) => {
   kick().then(() => {
     console.log("createHttpTask() completed.");
