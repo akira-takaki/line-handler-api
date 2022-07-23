@@ -6,6 +6,7 @@ import Task = google.cloud.tasks.v2.Task;
 
 /**
  * LINE プッシュメッセージを送信するタスクを Cloud Tasks へ登録する
+ * https://cloud.google.com/tasks/docs/dual-overview?hl=ja
  */
 async function kick(): Promise<void> {
   const client = new CloudTasksClient();
